@@ -1,0 +1,40 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  TF_IN_AUTOMATION: 'true'
+  SONARQUBE_PROJECT_KEY: 'terraform-project'
+  SONARQUBE_ORG: 'my-org'
+
+stages:
+- stage: Build
+  jobs:
+  - job: 'Code_Quality'
+    steps:
+    - task: SonarQubePrepare@4
+      inputs:
+        SonarQube: 'SonarQubeServiceConnection'
+        scannerMode: 'CLI'
+        configMode: 'manual'
+        cliProjectKey: $(SONARQUBE_PROJECT_KEY)
+        cliOrganization: $(SONARQUBE_ORG)
+        cliOptions: '-Dsonar.sources=. -Dsonar.exclusions=**/*.tfstate'
+
+    - task: SonarQubeAnalyze@4
+    - task: SonarQubePublish@4
+      inputs:
+        pollingTimeoutSec: '300'
+
+- stage: Deploy
+  jobs:
+  - job: 'Terraform_Apply'
+    steps:
+    - script: |
+        terraform init
+        terraform validate
+        terraform plan -out=tfplan
+        terraform apply tfplan
+      displayName: 'Terraform Apply'
