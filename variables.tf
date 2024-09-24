@@ -1,3 +1,20 @@
+variable "resource_group_name" {
+  type        = string
+  description = "The name of the Resource Group"
+  default = "BPLB-RG"
+}
+
+variable "location" {
+  type        = string
+  description = "Azure region where resources will be deployed"
+  default = "northeurope"
+}
+
+variable "storage_account_name" {
+  type        = string
+  description = "The name of the ADLS storage"
+  default = "bplbtest24"
+}
 variable "vnet_name" {
   type        = string
   description = "The name of the Virtual Network"
@@ -8,18 +25,6 @@ variable "vnet_address_space" {
   type        = string
   description = "The IP range of the Virtual Network"
   default     = "10.10.0.0/16"
-}
-
-variable "resource_group_name" {
-  type        = string
-  description = "The name of the Resource Group"
-  default     = "BPLB-RG"
-}
-
-variable "location" {
-  type        = string
-  description = "The location where resources will be deployed"
-  default     = "North Europe"
 }
 
 variable "admin_username" {
@@ -38,12 +43,6 @@ variable "vm_size" {
   type        = string
   description = "The size of the VM instances"
   default     = "Standard_B2ms"
-}
-
-variable "adls_name" {
-  type        = string
-  description = "The name of the ADLS storage"
-  default     = "terratestbplb24"
 }
 
 variable "subscription_id" {

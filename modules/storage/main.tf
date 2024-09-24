@@ -9,7 +9,7 @@ resource "azurerm_storage_account" "adls" {
   account_replication_type  = "LRS"
 
   # Enable hierarchical namespace for ADLS Gen2
-  enable_hierarchical_namespace = true
+  #enable_hierarchical_namespace = true
 
   # Access tier: can be "Hot" or "Cool"
   access_tier = "Hot"
